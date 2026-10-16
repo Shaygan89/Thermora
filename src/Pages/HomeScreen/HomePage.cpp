@@ -39,7 +39,7 @@ void HomeScreen() {
     // }
 
     if (ButtonOkPressed()) {
-        clearDisplay();
-        SetPage(PAGE_SETTINGS);
+        // clearDisplay();
+        // SetPage(PAGE_SETTINGS);
     }
 }

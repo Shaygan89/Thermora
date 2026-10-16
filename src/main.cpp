@@ -3,6 +3,7 @@
 #include "Modules/DHT/DHT.h"
 #include "Modules/Boot/Boot.h"
 #include "Modules/Page System/Page System.h"
+#include "Modules/Page System/Buttons.h"
 
 TaskHandle_t animationTaskHandle;
 
@@ -14,6 +15,18 @@ void animationTask(void *pvParameters)
         loadingBarAnimation();
 
         vTaskDelay(60 / portTICK_PERIOD_MS);
+    }
+
+    vTaskDelete(NULL);
+}
+
+void touchTask(void *pvParameters)
+{
+    while(1)
+    {
+        // Update all buttons
+        Buttons_Update();
+        vTaskDelay(2 / portTICK_PERIOD_MS);
     }
 
     vTaskDelete(NULL);
@@ -36,6 +49,16 @@ void setup() {
   clearDisplay();
   createCharacter(0, 0);
   createCharacter(1, 1);
+
+  xTaskCreatePinnedToCore(
+        touchTask,
+        "touch reading",
+        1024,
+        NULL,
+        1,
+        NULL,
+        0
+  );
   
 }
 
