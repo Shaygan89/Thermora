@@ -66,13 +66,11 @@ void printLine(int column, int line, String text)
 
 void loadingBarAnimation() {
     if (i == 2) {
-        lcd.print(" ");
         if (c == 19) {
             c = 0;
         } else {
             c++;
         }
-        lcd.clear();
     }
 
     if (i == 2){
@@ -81,6 +79,11 @@ void loadingBarAnimation() {
         i++;
     }
 
+    // removing previous loading bar char
+    int d = c - 1;
+    lcd.setCursor(d, 3);
+    lcd.print(" ");
+    // write loading bar char
     lcd.createChar(0, loadingBarFrames[i]);
     lcd.setCursor(c, 3);
     lcd.write(byte(0));

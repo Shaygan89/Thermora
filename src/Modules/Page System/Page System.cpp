@@ -1,5 +1,6 @@
 #include "Page System.h"
 #include "Pages/HomeScreen/HomePage.h"
+#include "Pages/Settings/Main/Settings.h"
 
 // Start on Home page
 Page currentPage = PAGE_HOME;
@@ -20,9 +21,9 @@ void UpdateCurrentPage()
             HomeScreen();
             break;
 
-        // case PAGE_SETTINGS:
-        //     Settings();
-        //     break;
+        case PAGE_SETTINGS:
+            Settings();
+            break;
 
         // case PAGE_SIMSETTINGS:
         //     SimSettingsPage();
