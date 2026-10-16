@@ -2,7 +2,7 @@
 #include "Modules/Page System/Buttons.h"
 #include "Modules/Page System/Page System.h"
 #include "Modules/DHT/DHT.h"
-//#include "SIM/SIM.h"
+#include "Modules/SIM/SIM.h"
 
 int gsmSignal = 0;
 
@@ -13,30 +13,30 @@ void HomeScreen() {
     printLine(7, 3, String(humidity, 0));
     printChar(1, 6, 3);
 
-    // static unsigned long lastUpdate = 0;
+    static unsigned long lastUpdate = 0;
 
-    // if (millis() - lastUpdate >= 1000) {
-    //     lastUpdate = millis();
-    //     gsmSignal = SIM_GetSignalLevel();
+    if (millis() - lastUpdate >= 1000) {
+        lastUpdate = millis();
+        gsmSignal = SIM_GetSignalLevel();
 
-    //     Serial.println(gsmSignal);
-    // }
+        Serial.println(gsmSignal);
+    }
 
-    // if (gsmSignal == 4) {
-    //     createCharacter(2, 2);
-    // } else if (gsmSignal == 3) {
-    //     createCharacter(2, 3);
-    // } else if (gsmSignal == 2) {
-    //     createCharacter(2, 4);
-    // } else if (gsmSignal == 1) {
-    //     createCharacter(2, 5);
-    // } else {
-    //     printLine(19, 0, "x");
-    // }
+    if (gsmSignal == 4) {
+        createCharacter(2, 2);
+    } else if (gsmSignal == 3) {
+        createCharacter(2, 3);
+    } else if (gsmSignal == 2) {
+        createCharacter(2, 4);
+    } else if (gsmSignal == 1) {
+        createCharacter(2, 5);
+    } else {
+        printLine(19, 0, "x");
+    }
 
-    // if (gsmSignal != 0) {
-    //     printChar(2, 19, 0);
-    // }
+    if (gsmSignal != 0) {
+        printChar(2, 19, 0);
+    }
 
     if (ButtonOkPressed()) {
         clearDisplay();

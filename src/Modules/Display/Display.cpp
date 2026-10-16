@@ -2,6 +2,7 @@
 #include <Wire.h> 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
+#include <Modules/Boot/Boot.h>
 
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
@@ -65,6 +66,20 @@ void printLine(int column, int line, String text)
 }
 
 void loadingBarAnimation() {
+
+    if (simCheckPhase == 1) {
+        printLine(0, 0, "Checking SimCard...");
+    } else if (simCheckPhase == 2) {
+        printLine(0, 0, "Checking Network   ");
+        printLine(0, 1, "connectivity...");
+        //lastActivity = millis();
+    }
+
+    if (uiTestMode) {
+        printLine(0, 0, "                 ");
+        printLine(4, 1, "UI TEST MODE");
+    }
+    
     if (i == 2) {
         if (c == 19) {
             c = 0;

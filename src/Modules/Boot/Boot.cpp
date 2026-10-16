@@ -2,7 +2,7 @@
 #include "Modules/Display/Display.h"
 #include "Modules/DHT/DHT.h"
 #include "Modules/NRF/NRF.h"
-// #include "SIM/SIM.h"
+#include "Modules/SIM/SIM.h"
 #include "Modules/Page System/Buttons.h"
 #include <EEPROM.h>
 #include "esp_system.h"
@@ -74,45 +74,51 @@ void Boot() {
         nrfOK = false;
     }
 
-    // if (!uiTestMode) {
-    //     Serial.println("NRF CHECK");
+    if (!uiTestMode) {
+        Serial.println("NRF CHECK");
 
-    //     if(SIM_ModuleTest()) {
-    //         simOK = true;
-    //     } else {
-    //         bootFinished = true;
-    //         BSODcantRestart = true;
-    //         BSOD();
-    //         simOK = false;
-    //     }
+        if(SIM_ModuleTest()) {
+            simOK = true;
+        } else {
+            bootFinished = true;
+            BSODcantRestart = true;
+            clearDisplay();
+            printLine(0, 0, "Simcard Failure!");
+            simOK = false;
+        }
 
-    //     Serial.println("SIM CHECK Phase 1");
+        Serial.println("SIM CHECK Phase 1");
 
-    //     simCheckPhase = 1;
+        simCheckPhase = 1;
 
-    //     if(SIM_SIMCardTest()) {
-    //         simCardOK = true;
-    //     } else {
-    //         bootFinished = true;
-    //         BSOD();
-    //         simCardOK = false;
-    //     }
+        if (!bootFinished) {
+            if(SIM_SIMCardTest()) {
+                simCardOK = true;
+            } else {
+                clearDisplay();
+                printLine(0, 0, "No simCard!");
+                bootFinished = true;
+                simCardOK = false;
+            }
+        }
 
-    //     Serial.println("SIM CHECK Phase 2");
+        Serial.println("SIM CHECK Phase 2");
 
-    //     simCheckPhase = 2;
+        simCheckPhase = 2;
 
-    //     if(SIM_NetworkTest()) {
-    //         simConnectivityOK = true;
-    //     } else {
-    //         bootFinished = true;
-    //         clearDisplay();
-    //         printLine(0, 0, "Cannot get any");
-    //         printLine(0, 1, "signals!");
-    //         delay(3000);
-    //         simConnectivityOK = false;
-    //     }
-    // }
+        if (!bootFinished) {
+            if(SIM_NetworkTest()) {
+                simConnectivityOK = true;
+            } else {
+                bootFinished = true;
+                clearDisplay();
+                printLine(0, 0, "Cannot get any");
+                printLine(0, 1, "signals!");
+                delay(3000);
+                simConnectivityOK = false;
+            }
+        }
+    }
 
     //SendNRF();
 
