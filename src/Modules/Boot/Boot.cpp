@@ -25,17 +25,17 @@ void Boot() {
     Serial.println("Serial Begin");
     Serial.printf("Reset reason: %d\n", esp_reset_reason());
 
-    // EEPROM.begin(64);
-    // delay(10);
+    EEPROM.begin(64);
+    delay(10);
 
-    // EEPROM.get(0, phoneNumber);
-    // if (phoneNumber[0] != '0' || phoneNumber[1] != '9') {
-    // strcpy(phoneNumber, "09352441497");
-    // EEPROM.put(0, phoneNumber);
-    // EEPROM.commit();
-    // bootFinished = true;
-    // BSOD();
-    // }
+    EEPROM.get(0, phoneNumber);
+    if (phoneNumber[0] != '0' || phoneNumber[1] != '9') {
+    strcpy(phoneNumber, "09352441497");
+    EEPROM.put(0, phoneNumber);
+    EEPROM.commit();
+    bootFinished = true;
+    BSOD();
+    }
 
     Buttons_Init();
     Serial.println("Button Initialize");
